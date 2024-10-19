@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Trending from "./components/Trending";
 import CoinPage from "./pages/CoinPage";
+import Footer from "./components/Footer";
 
 export default function App() {
   const [coines, setCoines] = useState();
@@ -38,6 +39,7 @@ export default function App() {
       {/* Pass coines to Search component */}
       <Search coins={coines} />
       <Trending/>
+      <Footer/>
     </ThemeProvider>
   );
 }
