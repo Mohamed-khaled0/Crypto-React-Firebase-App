@@ -9,6 +9,7 @@ import Account from "./pages/Account";
 import Axios from 'axios';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Trending from "./components/Trending";
 
 export default function App() {
   const [coines, setCoines] = useState();
@@ -32,6 +33,7 @@ export default function App() {
       </Routes>
       {/* Pass coines to Search component */}
       <Search coins={coines} />
+      <Trending/>
     </ThemeProvider>
   );
 }
