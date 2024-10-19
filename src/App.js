@@ -12,6 +12,7 @@ import axios from "axios";
 import Trending from "./components/Trending";
 import CoinPage from "./pages/CoinPage";
 import Footer from "./components/Footer";
+import { AuthContextProvider } from "./context/AuthContext";
 
 export default function App() {
   const [coines, setCoines] = useState();
@@ -26,6 +27,9 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <AuthContextProvider>
+
+
       <Navbar />
       <Routes>
         <Route path="/" element={<Home coines={coines} />} />
@@ -40,6 +44,7 @@ export default function App() {
       <Search coins={coines} />
       <Trending/>
       <Footer/>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

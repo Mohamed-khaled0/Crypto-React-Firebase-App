@@ -10,7 +10,7 @@ export default function SavedCoins() {
       {coins.length === 0 ? (
         <p>
           You don't have any coins saved. Please save a coin to add it to your
-          watch list. <Link to="/">Click here to search coins.</Link>
+          watch list. <Link to="/" className="text-blue-600 underline ">Click here to search coins.</Link>
         </p>
       ) : (
         <table className='w-full border-collapse text-center'>
