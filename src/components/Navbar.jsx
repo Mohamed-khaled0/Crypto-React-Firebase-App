@@ -38,22 +38,22 @@ export default function Navbar() {
       >
         <ul className="w-full ml-[30px] mb-16 ">
           <li>
-            <Link to="/" className=''>Home</Link>
+            <Link onClick={handleNav} to="/" className=''>Home</Link>
           </li>
           <li>
-            <Link to="/" className=' '>Account</Link>
+            <Link onClick={handleNav} to="/account" className=' '>Account</Link>
           </li>
           <li className='mt-2 mr-0'>
             <ThemeToggle />
           </li>
         </ul>
         <div className='flex flex-col w-full p-4'>
-          <Link to="/signin"               
+          <Link  onClick={handleNav} to="/signin"               
           className='w-full my-2 p-3 bg-primary text-primary border border-secondary rounded-2xl shadow-xl'
           >
-            <button>Sign In</button>
+            <button >Sign In</button>
           </Link>
-          <Link to="/signup" 
+          <Link onClick={handleNav} to="/signup" 
           className='w-full my-2 p-3 bg-button text-btnText rounded-2xl shadow-xl'>
             <button>Sign Up</button>
           </Link>

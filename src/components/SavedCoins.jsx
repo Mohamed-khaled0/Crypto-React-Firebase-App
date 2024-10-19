@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 export default function SavedCoins() {
-  const [coins, setCoins] = useState([2]);
+  const [coins, setCoins] = useState([]);
 
   return (
     <div>
@@ -22,16 +22,16 @@ export default function SavedCoins() {
             </tr>
           </thead>
           <tbody>
-            {coins.map((coin) => {
+            {coins.map((coin) => (
               <tr key={coin.id} className="h-[50px] overflow-hidden ">
                 <td>{coin?.rank}</td>
                 <td>
                   <Link to={`/coin/${coin.id}`}>
                     <div className="flex items-center">
-                      <img className="w-8 mr-4" src={coin?.img} alt="/" />
+                      <img className="w-8 mr-4" src={coin?.img} alt={coin?.name} />
                       <div>
                         <p className="hidden sm:table-cell">{coin?.name}</p>
-                        <p className="text-gray-400 text-left text-sm">{coin?.symbol.toUpperCase()}</p>
+                        <p className="text-gray-400 text-left text-sm">{coin?.symbol?.toUpperCase() }</p>
                       </div>
                     </div>
                   </Link>
@@ -39,8 +39,8 @@ export default function SavedCoins() {
                 <td className="pl-8 ">
                   <AiOutlineClose className="cursor-pointer" />
                 </td>
-              </tr>;
-            })}
+              </tr>
+            ))}
           </tbody>
         </table>
       )}
