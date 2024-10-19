@@ -10,6 +10,7 @@ import Axios from 'axios';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Trending from "./components/Trending";
+import CoinPage from "./pages/CoinPage";
 
 export default function App() {
   const [coines, setCoines] = useState();
@@ -27,10 +28,13 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home coines={coines} />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/account" element={<Account />} />
-      </Routes>
+        <Route path='/signin' element={<Signin />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/account' element={<Account />} />
+          <Route path='/coin/:coinId' element={<CoinPage />}>
+            <Route path=':coinId' />
+          </Route>
+        </Routes>
       {/* Pass coines to Search component */}
       <Search coins={coines} />
       <Trending/>
