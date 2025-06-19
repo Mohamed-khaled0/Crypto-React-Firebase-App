@@ -10,19 +10,25 @@ const CoinItem = ({ coin }) => {
   const [savedCoin, setSavedCoin] = useState(false);
   const { user } = UserAuth();
 
-  const coinPath = doc(db, 'users', `${user?.email}`);
   const saveCoin = async () => {
-    if (user?.email) {
-      setSavedCoin(true);
-      await updateDoc(coinPath, {
-        watchList: arrayUnion({
-          id: coin.id,
-          name: coin.name,
-          image: coin.image,
-          rank: coin.market_cap_rank,
-          symbol: coin.symbol,
-        }),
-      });
+    if (user?.uid) {
+      try {
+        const coinPath = doc(db, 'users', user.uid);
+        setSavedCoin(true);
+        await updateDoc(coinPath, {
+          watchList: arrayUnion({
+            id: coin.id,
+            name: coin.name,
+            image: coin.image,
+            rank: coin.market_cap_rank,
+            symbol: coin.symbol,
+          }),
+        });
+      } catch (error) {
+        console.error('Error saving coin:', error);
+        setSavedCoin(false);
+        alert('Failed to save coin. Please try again.');
+      }
     } else {
       alert('Please sign in to save a coin to your watch list');
     }

@@ -27,10 +27,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
-            <div className="w-8 h-8 bg-gradient rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">₿</span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold text-primary">
               Crypto Tracker
             </h1>
           </Link>

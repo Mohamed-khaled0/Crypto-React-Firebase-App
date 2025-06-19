@@ -9,10 +9,6 @@ export default function Home({coines}) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Track Your
-            <span className="bg-gradient bg-clip-text text-transparent"> Crypto</span>
-          </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Stay updated with real-time cryptocurrency prices, market trends, and portfolio tracking
           </p>

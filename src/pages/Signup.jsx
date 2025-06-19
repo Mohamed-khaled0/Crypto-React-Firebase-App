@@ -35,8 +35,9 @@ const Signup = () => {
     }
 
     try {
-      await signUp(email, password);
+      const result = await signUp(email, password);
       
+      // If we get here, the account was created successfully
       setSuccess('Account created successfully! Redirecting to your account...');
       
       setEmail('');
@@ -48,16 +49,19 @@ const Signup = () => {
       }, 2000);
 
     } catch (e) {
+      console.log('Signup error:', e);
+      
       if (e.code === 'auth/email-already-in-use') {
         setError('This email is already registered. Please sign in instead.');
       } else if (e.code === 'auth/invalid-email') {
         setError('Please enter a valid email address.');
       } else if (e.code === 'auth/weak-password') {
         setError('Password is too weak. Please choose a stronger password.');
+      } else if (e.code === 'auth/network-request-failed') {
+        setError('Network error. Please check your internet connection and try again.');
       } else {
-        setError('An error occurred. Please try again.');
+        setError('An error occurred during signup. Please try again.');
       }
-      console.log(e.message);
     } finally {
       setLoading(false);
     }

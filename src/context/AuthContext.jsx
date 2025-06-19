@@ -29,14 +29,23 @@ export const AuthContextProvider = ({ children }) => {
             watchList: [],
             createdAt: new Date().toISOString(),
           });
+          console.log('User document created successfully');
         } catch (firestoreError) {
           console.warn('Firestore document creation failed, but user account was created:', firestoreError);
+          
+          // If it's a permissions error, log it specifically
+          if (firestoreError.code === 'permission-denied') {
+            console.warn('Firestore permissions issue. Please check your security rules.');
+          }
+          
           // Don't throw the error - user account is still created successfully
           // The document can be created later when needed
         }
         
         return userCredential;
       } catch (error) {
+        console.error('User creation error:', error);
+        
         // If user creation failed, throw the error
         if (!userCredential) {
           throw error;

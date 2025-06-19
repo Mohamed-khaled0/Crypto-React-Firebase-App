@@ -10,12 +10,20 @@ const SavedCoin = () => {
   const { user } = UserAuth();
 
   useEffect(() => {
-    onSnapshot(doc(db, 'users', `${user?.email}`), (doc) => {
-      setCoins(doc.data()?.watchList);
-    });
-  }, [user?.email]);
+    if (user?.uid) {
+      const unsubscribe = onSnapshot(doc(db, 'users', user.uid), (doc) => {
+        if (doc.exists()) {
+          setCoins(doc.data()?.watchList || []);
+        } else {
+          setCoins([]);
+        }
+      });
+      
+      return () => unsubscribe();
+    }
+  }, [user?.uid]);
 
-  const coinPath = doc(db, 'users', `${user?.email}`);
+  const coinPath = doc(db, 'users', user?.uid);
   const deleteCoin = async (passedid) => {
     try {
       const result = coins.filter((item) => item.id !== passedid);
@@ -23,17 +31,32 @@ const SavedCoin = () => {
         watchList: result,
       });
     } catch (e) {
-      console.log(e.message);
+      console.error('Error deleting coin:', e);
+      alert('Failed to remove coin. Please try again.');
     }
   };
+
+  if (!user?.uid) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-600 dark:text-gray-400">
+          Please sign in to view your saved coins.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
       {coins?.length === 0 ? (
-        <p>
-          You don't have any coins saved. Please save a coin to add it to your
-          watch list. <Link to='/'>Click here to search coins.</Link>
-        </p>
+        <div className="text-center py-8">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            You don't have any coins saved. Please save a coin to add it to your watch list.
+          </p>
+          <Link to="/" className="text-accent hover:text-accent/80 font-semibold">
+            Click here to search coins
+          </Link>
+        </div>
       ) : (
         <table className='w-full border-collapse text-center'>
           <thead>
@@ -63,7 +86,7 @@ const SavedCoin = () => {
                 <td className='pl-8'>
                   <AiOutlineClose
                     onClick={() => deleteCoin(coin.id)}
-                    className='cursor-pointer'
+                    className='cursor-pointer hover:text-red-500 transition-colors'
                   />
                 </td>
               </tr>
