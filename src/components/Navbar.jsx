@@ -1,87 +1,184 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu, AiOutlineHome, AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
+import { UserAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const [nav, setNav] = useState(false);
+  const { user, logout } = UserAuth();
 
   const handleNav = () => {
     setNav(!nav);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setNav(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="rounded-div flex items-center justify-between font-bold h-20">
-      <Link to="/">
-        <h1 className="text-2xl">Crypto</h1>
-      </Link>
+    <nav className="sticky top-0 z-50 bg-primary/80 backdrop-blur-md border-b border-secondary/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
+            <div className="w-8 h-8 bg-gradient rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">₿</span>
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient bg-clip-text text-transparent">
+              Crypto Tracker
+            </h1>
+          </Link>
 
-      {/* Toggle Button for Theme and Account */}
-      <div className="hidden md:flex items-center">
-        <ThemeToggle />
-        <Link to="/account" className="p-4 hover:text-accent duration-200">
-          Account
-        </Link>
-      </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              to="/" 
+              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-accent transition-colors duration-200"
+            >
+              <AiOutlineHome size={20} />
+              <span>Home</span>
+            </Link>
+            
+            <ThemeToggle />
+            
+            {user?.email ? (
+              <>
+                <Link 
+                  to="/account" 
+                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-accent transition-colors duration-200"
+                >
+                  <AiOutlineUser size={20} />
+                  <span>Account</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors duration-200"
+                >
+                  <AiOutlineLogout size={20} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link 
+                  to="/signin" 
+                  className="text-gray-700 dark:text-gray-300 hover:text-accent transition-colors duration-200"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="btn-primary px-6 py-2"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
 
-      {/* Desktop Sign In / Sign Up */}
-      <div className="hidden md:flex items-center">
-        <Link to="/signin" className="p-4 hover:text-accent duration-200">
-          Sign In
-        </Link>
-        <Link
-          to="/signup"
-          className="bg-button text-btnText px-5 py-2 ml-2 rounded-2xl shadow-lg hover:shadow-2xl"
-        >
-          Sign Up
-        </Link>
-      </div>
-
-      {/* Mobile menu icon */}
-      <div onClick={handleNav} className="block md:hidden cursor-pointer z-10">
-        {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={handleNav}
+              className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-secondary transition-colors duration-200"
+            >
+              {nav ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={
-          nav
-            ? "md:hidden fixed left-0 top-20 flex flex-col items-center justify-between w-full h-[90%] bg-primary ease-in duration-300 z-10"
-            : "fixed left-[-100%] top-20 h-[90%] flex flex-col items-center justify-between ease-in duration-300"
-        }
+        className={`md:hidden fixed inset-0 z-40 transition-transform duration-300 ease-in-out ${
+          nav ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        <ul className="w-full ml-[30px] mb-16">
-          <li>
-            <Link onClick={handleNav} to="/" className="">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link onClick={handleNav} to="/account" className="">
-              Account
-            </Link>
-          </li>
-          <li className="mt-2 ">
-            <ThemeToggle  />
-          </li>
-        </ul>
-        <div className="flex flex-col w-full p-4">
-          <Link
-            onClick={handleNav}
-            to="/signin"
-            className="w-full my-2 p-3 bg-primary text-primary border border-secondary rounded-2xl shadow-xl"
-          >
-            <button>Sign In</button>
-          </Link>
-          <Link
-            onClick={handleNav}
-            to="/signup"
-            className="w-full my-2 p-3 bg-button text-btnText rounded-2xl shadow-xl"
-          >
-            <button>Sign Up</button>
-          </Link>
+        <div className="fixed inset-0 bg-black/50" onClick={handleNav}></div>
+        <div className="fixed right-0 top-0 h-full w-80 bg-primary border-l border-secondary/20 shadow-2xl">
+          <div className="flex flex-col h-full">
+            {/* Mobile menu header */}
+            <div className="flex items-center justify-between p-6 border-b border-secondary/20">
+              <h2 className="text-xl font-bold">Menu</h2>
+              <button
+                onClick={handleNav}
+                className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-secondary transition-colors duration-200"
+              >
+                <AiOutlineClose size={24} />
+              </button>
+            </div>
+
+            {/* Mobile menu items */}
+            <div className="flex-1 px-6 py-4 space-y-4">
+              <Link
+                onClick={handleNav}
+                to="/"
+                className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-secondary transition-colors duration-200"
+              >
+                <AiOutlineHome size={20} />
+                <span>Home</span>
+              </Link>
+
+              {user?.email ? (
+                <>
+                  <Link
+                    onClick={handleNav}
+                    to="/account"
+                    className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-secondary transition-colors duration-200"
+                  >
+                    <AiOutlineUser size={20} />
+                    <span>Account</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-red-500/10 hover:text-red-500 transition-colors duration-200 w-full text-left"
+                  >
+                    <AiOutlineLogout size={20} />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <div className="space-y-3">
+                  <Link
+                    onClick={handleNav}
+                    to="/signin"
+                    className="block w-full p-3 text-center bg-secondary text-primary rounded-lg hover:bg-secondary/80 transition-colors duration-200"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    onClick={handleNav}
+                    to="/signup"
+                    className="block w-full p-3 text-center btn-primary"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
+
+              <div className="pt-4 border-t border-secondary/20">
+                <ThemeToggle />
+              </div>
+            </div>
+
+            {/* User info */}
+            {user?.email && (
+              <div className="p-6 border-t border-secondary/20">
+                <p className="text-sm text-gray-600 dark:text-gray-400">Signed in as</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                  {user.email}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }

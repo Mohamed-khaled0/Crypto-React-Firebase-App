@@ -9,6 +9,51 @@
     .text-primary {
       color: var(--color-text-primary);
     }
+    .bg-gradient {
+      background: linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-end) 100%);
+    }
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .glass-effect-dark {
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .hover-lift {
+      transition: all 0.3s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .animate-slide-up {
+      animation: slideUp 0.5s ease-out;
+    }
+    .animate-pulse-slow {
+      animation: pulse 3s infinite;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   :root {
@@ -19,23 +64,102 @@
     @apply border border-secondary rounded-2xl shadow-xl bg-primary px-2 max-w-[1140px] w-full mx-auto;
   }
 
+  .card {
+    @apply bg-primary border border-secondary rounded-2xl shadow-lg hover-lift;
+  }
+
+  .btn-primary {
+    @apply bg-gradient text-white font-semibold py-3 px-6 rounded-2xl hover-lift transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-primary font-semibold py-3 px-6 rounded-2xl hover-lift transition-all duration-300;
+  }
+
+  .input-field {
+    @apply w-full p-4 bg-secondary border border-secondary rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300;
+  }
+
 .dark {
-  --color-bg-primary: #2d3748;
-  --color-bg-primary: #2d3748;
-  --color-bg-secondary: #283141;
-  --color-text-primary: #dbdbdb;
-  --color-text-secondary: #e2e8f0;
-  --color-text-accent: #81e6d9;
-  --color-bg-input: #4a5361;
-  --color-bg-button: #81e6d9;
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-accent: #06b6d4;
+  --color-bg-input: #1e293b;
+  --color-bg-button: #06b6d4;
+  --color-gradient-start: #06b6d4;
+  --color-gradient-end: #0891b2;
+  --color-border: #334155;
+  --color-shadow: rgba(0, 0, 0, 0.3);
 }
 
 .light {
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #edf2f7;
-  --color-text-primary: #2d3748;
-  --color-text-secondary: #4a5568;
-  --color-text-accent: #2b6cb0;
-  --color-bg-input: #edf2f7;
-  --color-bg-button: #2b6cb0;
+  --color-bg-secondary: #f8fafc;
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-accent: #06b6d4;
+  --color-bg-input: #f1f5f9;
+  --color-bg-button: #06b6d4;
+  --color-gradient-start: #06b6d4;
+  --color-gradient-end: #0891b2;
+  --color-border: #e2e8f0;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gradient-end);
+}
+
+/* Loading animation */
+.loading-spinner {
+  border: 3px solid var(--color-bg-secondary);
+  border-top: 3px solid var(--color-text-accent);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Price change animations */
+.price-up {
+  animation: priceUp 0.5s ease-out;
+  color: #10b981;
+}
+
+.price-down {
+  animation: priceDown 0.5s ease-out;
+  color: #ef4444;
+}
+
+@keyframes priceUp {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes priceDown {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }

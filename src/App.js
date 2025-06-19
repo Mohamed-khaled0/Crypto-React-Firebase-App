@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account";
-import Axios from "axios";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CoinPage from "./pages/CoinPage";
